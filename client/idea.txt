@@ -1,0 +1,18 @@
+
+    let loading = document.getElementById("loading");
+    let callback = ((entries,observer) => {
+        entries.forEach(entry => {
+            if(entry.target.id === "loading") {
+                console.log("bisa");
+            }
+        });
+    })
+    let options = {
+        root:null,
+        rootMargin:'0px',
+        threshold:1.0
+    }
+    let observer = new IntersectionObserver(callback,options);
+    if (loading) {
+        observer.observe(loading)
+    }

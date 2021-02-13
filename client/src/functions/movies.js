@@ -13,7 +13,7 @@ export const getAllMovies = async(page) => {
 export const getMovieGenres = async() => {
     let genres = [];
     try {
-        let res = await axios.get("/g/genres");
+        let res = await axios.get("/g/add-movie-genres");
         res.data.data.forEach(genre => {
             genres.push({value:genre.id, label:genre.genre})
         });
@@ -26,7 +26,7 @@ export const getMovieGenres = async() => {
 export const getMovie = async (genreIds,page) => {
     try {
         let res = await axios.post('/m/movie-genre', {id:genreIds,page});
-        return res.data;
+        return res.data.data;
     } catch (error) {
         throw error
     }

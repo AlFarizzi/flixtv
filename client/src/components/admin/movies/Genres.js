@@ -1,6 +1,6 @@
 import React,{ useEffect, useState, Suspense } from 'react';
 import { getAllGenres, deleteGenre, updateGenre } from '../../../functions/movies';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import Loader from '../../../utils/Loader';
 import OverLay from '../../../utils/OverLay';
 import axios from '../../../utils/axios';
@@ -31,11 +31,16 @@ const Genres = () => {
 
     const addHandler = async(e) => {
       e.preventDefault();
+      setLoading(true);
       let genre = prompt("Masukan Nama Genre");
       if(genre) {
           let res = await axios.post('/g/add-genre', {genre})
-          setGenres(getAllGenres(page));
+          if (res.data.created === true) {
+            alert("Genre Berhasil Ditambahkan")
+            setGenres(await getAllGenres(page))
+          } 
         }
+        setLoading(false);
     }
 
     const loadMoreHandler = async () => {
@@ -63,7 +68,7 @@ const Genres = () => {
                   <div className="col-12">
                     <div className="main__title">
                       <h2>Genre</h2>
-                      <a onClick={addHandler} to="#" className="main__title-link">add item</a>
+                      <a onClick={addHandler} href="!#" className="main__title-link">add item</a>
                     </div>
                   </div>
                   {/* end main title */}

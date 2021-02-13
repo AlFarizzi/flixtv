@@ -3,41 +3,43 @@ import { Route } from 'react-router-dom';
 import { Navbar } from './Importer';
 import Movie from '../components/movies/Movie';
 import Login from '../components/auth/Login';
+import Guest from './Guest';
 
 const Catalog = React.lazy(() => import('../components/movies/Catalog'));
-const Carousel = React.lazy(() => import('../components/movies/Carousel'));
 
 function UnProtectedRoute(props) {
 
     return (
         <>
             <Route exact path="/">
-                <Navbar />
-                <Suspense fallback={"Loading...."}>
-                    <Carousel />
-                </Suspense>
-                <Suspense fallback={"Loading...."}>
-                    <Catalog />
-                </Suspense>
+                <Guest>
+                    <Navbar header={"header header--static"}/>
+                    <Suspense fallback={"Loading...."}>
+                        <Catalog />
+                    </Suspense>
+                </Guest>
             </Route>
 
             <Route exact path="/:genreId/:genre">
-                <Navbar />
-                <Suspense fallback={"Loading...."}>
-                    <Carousel />
-                </Suspense>
-                <Suspense fallback={"Loading...."}>
-                    <Catalog />
-                </Suspense>
+                <Guest>
+                    <Navbar header={"header header--static"}/>
+                    <Suspense fallback={"Loading...."}>
+                        <Catalog />
+                    </Suspense>
+                </Guest>
             </Route>
             
             <Route exact path="/movie/:id/:title">
-                <Navbar />
-                <Movie />
+                <Guest>
+                    <Navbar header={"header header--hidden"}/>
+                    <Movie />
+                </Guest>
             </Route>
 
             <Route exact path="/login">
-                <Login />
+                <Guest>
+                    <Login />
+                </Guest>
             </Route>
         </>
     );

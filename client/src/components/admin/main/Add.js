@@ -5,6 +5,8 @@ import axios from '../../../utils/axios';
 import Poster from '../upload/Poster';
 import Video from '../upload/Video';
 import Select2 from '../movies/Select2';
+import OverLay from '../../../utils/OverLay';
+import Loader from '../../../utils/Loader';
 
 function Add({data}) {
     const [genres,setGenres] = useState([]);
@@ -12,18 +14,27 @@ function Add({data}) {
     const [sinopsis,setSinopsis] = useState('');
     const [release,setRelease] = useState('');
     const [duration,setDuration] = useState('');
+    const [rating,setRating] = useState('');
     const [movieGenres,setMovieGenres] = useState([]);
     const [cover,setCover] = useState(null);
     const [video,setVideo] = useState(null)
     const [coverLink,setCoverLink] = useState(null);
     const [videoLink,setVideoLink] = useState(null)
+    const [loading,setLoading] = useState(false);
 
     const videoHandler = (e) => {
         setVideo(e.target.files[0]);
     }
 
     const coverHandler = (e) => {
+        let container = document.getElementById("form__img");
         setCover(e.target.files[0]);
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            console.log(e.target.result);
+            document.getElementById("form__img").src = e.target.result
+        }
+		reader.readAsDataURL(e.target.files[0]);
     }
 
     const timeHandler = (e) => {
@@ -77,6 +88,7 @@ function Add({data}) {
     const uploadFilmHandler = (e) => {
         e.preventDefault();
         try {
+            setLoading(true);
             uploadCoverHandler();
             uploadVideoHandler();
         } catch (error) {
@@ -107,19 +119,23 @@ function Add({data}) {
                     duration: duration,
                     genres: movieGenres,
                     poster_link: coverLink,
-                    video_link: videoLink
+                    video_link: videoLink,
+                    rating:parseFloat(rating) 
                 })
                 console.log(res.data);
                 setCoverLink(null)
                 setCover(null)
                 setVideoLink(null)
                 setVideo(null)
+                setLoading(false);
             })()
         }
     }, [coverLink,videoLink,duration,movieGenres,release,sinopsis,title]);
 
     return (
         <>
+          <Loader loading={ loading } />
+           { loading &&  <OverLay />}  
             {/* main content */}
             <main className="main">
             <div className="container-fluid">
@@ -152,18 +168,25 @@ function Add({data}) {
                                 id="text" name="text" className="form__textarea" placeholder="Description" defaultValue={""} />
                             </div>
                             </div>
-                            <div className="col-12 col-sm-6 col-lg-6">
+                            <div className="col-12 col-sm-6 col-lg-4">
                                 <div className="form__group">
                                     <input 
                                     onChange={e => setRelease(e.target.value)}
                                     type="text" className="form__input" placeholder="Release year" />
                                 </div>
                             </div>
-                            <div className="col-12 col-sm-6 col-lg-6">
+                            <div className="col-12 col-sm-6 col-lg-4">
                                 <div className="form__group">
                                     <input 
                                     onChange={timeHandler}
                                     type="number" className="form__input" placeholder="Running timed in minutes" />
+                                </div>
+                            </div>
+                            <div className="col-12 col-sm-6 col-lg-4">
+                                <div className="form__group">
+                                    <input 
+                                    onChange={e => setRating(e.target.value)}
+                                    type="number" className="form__input" placeholder="Rating" />
                                 </div>
                             </div>
                             <div className="col-12 col-lg-12">

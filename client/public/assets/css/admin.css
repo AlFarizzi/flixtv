@@ -183,7 +183,7 @@ ul {
   position: relative;
   padding: 0 15px;
 }
-.header__logo {
+.header__logo__admin {
   display: inline-flex;
   flex-direction: row;
   justify-content: flex-start;

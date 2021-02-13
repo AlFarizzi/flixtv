@@ -15,13 +15,13 @@ class MoviesResource extends JsonResource
      */
     public function toArray($request)
     {
-        $repo = new MovieController();
         return [
             "id" => $this->id,
             "title" => $this->title,
             "genres" => GenresResource::collection($this->genres),
             "poster_link" => $this->poster_link,
-            "video_link" => $this->video_link
+            "video_link" => $this->video_link,
+            "rating" => $this->rating
         ];
     }
 }

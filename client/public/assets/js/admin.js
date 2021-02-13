@@ -79,21 +79,21 @@ $(document).ready(function () {
 	/*==============================
 	Upload cover
 	==============================*/
-	function readURL(input) {
-		if (input.files && input.files[0]) {
-			var reader = new FileReader();
+	// function readURL(input) {
+	// 	if (input.files && input.files[0]) {
+	// 		var reader = new FileReader();
 
-			reader.onload = function(e) {
-				$('#form__img').attr('src', e.target.result);
-			}
-		
-			reader.readAsDataURL(input.files[0]);
-		}
-	}
+	// 		reader.onload = function(e) {
+	// 			$('#form__img').attr('src', e.target.result);
+	// 		}
+	// 		reader.readAsDataURL(input.files[0]);
+	// 	}
+	// }
 
-	$('#form__img-upload').on('change', function() {
-		readURL(this);
-	});
+	// $('#form__img-upload').on('change', function() {
+	// 	console.log("bisa dari bawah");
+	// 	readURL(this);
+	// });
 
 	/*==============================
 	Upload video

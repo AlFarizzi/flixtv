@@ -4,17 +4,28 @@ import { useParams } from 'react-router-dom';
 import * as Action from './actions/Actions';
 import Loader from '../../../utils/Loader';
 import OverLay from '../../../utils/OverLay';
-const page = 1;
+let pageNow = 1;
 
 function Movies(props) {
   const params = useParams();
   const [movies,setMovies] = useState([])
   const [loading,setLoading] = useState(false);
+  const [page,setPage] = useState(pageNow)
+
+  const loadMoreHandler = () => {
+    setLoading(true)
+    setPage(pageNow+=1);
+    setTimeout(async () => {
+      setMovies(await getAllMovies(page))
+      setLoading(false);
+    }, 2500);
+  }
 
   const deleteMovie = async(movie) => {
     setLoading(true)
     let deleted = await deleteMovieById(movie);
     if(deleted === true) alert("Data berhasil dihapus dan tidak dapat dikembalikan lagi!");
+    setMovies(await getAllMovies(page));
     setLoading(false);
   }
 
@@ -28,7 +39,7 @@ function Movies(props) {
     }
     params.id && params.genre ? getMoviesByGenre() : getMovies();
     return ac.abort();
-  }, [params.id,params.genre]);
+  }, [params.id,params.genre,page]);
   // console.log(movies);
 
   return (
@@ -108,6 +119,19 @@ function Movies(props) {
                   </div>
                   {/* end users */}
                 </div>
+                {
+                  movies.length > 0
+                  ? <>
+                      (
+                        <div className="row">
+                            <div className="col-12">
+                                <button onClick={loadMoreHandler} className="catalog__more" type="button">Load more</button>
+                            </div>
+                        </div>
+                      )
+                    </>
+                    : ''
+                }
               </div>
             </main>
         </>

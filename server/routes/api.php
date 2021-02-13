@@ -19,6 +19,7 @@ Route::group(["prefix" => "m"],function() {
 
 Route::group(["prefix" => "g"], function()  {
     Route::get('/genres', [MovieController::class,'getAllGenres']);
+    Route::get('/add-movie-genres', [MovieController::class,'getAllGenreForAddMovie']);
     Route::post('/add-genre', [MovieController::class,'addGenre']);
     Route::delete('/delete-genre', [MovieController::class,'deleteGenre']);
     Route::put('/update-genre', [MovieController::class,'updateGenre']);

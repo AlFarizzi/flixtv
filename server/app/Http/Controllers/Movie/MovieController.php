@@ -26,7 +26,7 @@ class MovieController extends Controller
     public function getMovieByGenre(Request $request) {
         $id = $request->id;
         $genre = new GenresResource(Genre::find($id));
-        $movies = $genre->movies;
+        $movies = MoviesResource::collection($genre->movies);
         return $movies;
     }
 
@@ -93,6 +93,10 @@ class MovieController extends Controller
     public function getAllGenres(Request $request) {
         $limit = $request->page;
         return GenresResource::collection(Genre::latest()->limit($limit * 5)->get());
+    }
+
+    public function getAllGenreForAddMovie() {
+        return GenresResource::collection(Genre::latest()->get());
     }
 
     public function addGenre(Request $request) {

@@ -1,22 +1,25 @@
 import React, { useState,useEffect } from 'react';
-import {getAllGenres} from '../../functions/movies';
+import { getMovieGenres } from '../../functions/movies';
+import { Link } from 'react-router-dom';
 const path = window.location.pathname;
 
-function Navbar(props) {
+function Navbar({ header }) {
     const [genres,setGenres] = useState([]);
     useEffect(() => {
-        const ac = new AbortController();
+        const login = sessionStorage.getItem("auth");
         const getGenres = async () => {
-            setGenres(await getAllGenres());
+            setGenres(await getMovieGenres());
         }
-        getGenres();
-      return ac.abort();
+        if(login !== "login" || login === null) {
+            getGenres();
+        }
     }, []);
 
     return (
         <>
             {/* header (relative style) */}
-            <header className={`${path === "/" ? 'header header--static' : 'header header--hidden'}`}>
+            {/* <header className={`${path === "/" ? 'header header--static' : 'header header--hidden'}`}> */}
+            <header className={header}>
                 <div className="container">
                 <div className="row">
                     <div className="col-12">
@@ -26,8 +29,8 @@ function Navbar(props) {
                         <span />
                         <span />
                         </button>
-                        <a href="index.html" className="header__logo">
-                        {/* <img src="/assets/img/logo.svg" alt="Movies & TV Shows, Online cinema HTML Template"> */}
+                        <a href="/" className="header__logo__client">
+                            <img src="https://dmitryvolkov.me/demo/flixtv/main/img/logo.svg" alt="Movies & TV Shows, Online cinema HTML Template" />
                         </a>
                         <ul className="header__nav">
                         <li className="header__nav-item">
@@ -39,7 +42,7 @@ function Navbar(props) {
 									{
                                         genres?.map((genre,key) => (
                                             <li key={key}>
-                                                <a href={`/${genre.id}/${genre.genre}`}>{genre.genre}</a>
+                                                <a href={`/${genre.value}/${genre.label}`}>{genre.label}</a>
                                             </li>
                                         ))
                                     }

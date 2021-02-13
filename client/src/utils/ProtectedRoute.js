@@ -1,18 +1,16 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
-// import { useRecoilState } from 'recoil';
-// import { user } from './atom';
+import { Route, Redirect } from 'react-router-dom';
 import Navbar from '../components/admin/navigation/Navbar';
 import Sidebar from '../components/admin/navigation/Sidebar';
 
 function ProtectedRoute({component:Component,...rest}) {
-    // const userData = useRecoilState(user)[0];
+    const login = sessionStorage.getItem("auth");
     return (
         <>
             <Route
                 {...rest}
                 render={props => {
-                    // if(userData.token) {
+                    if(login !== null && login === "login") {
                         return (
                             <>
                                 <Navbar />
@@ -20,9 +18,9 @@ function ProtectedRoute({component:Component,...rest}) {
                                 <Component />
                             </>
                         )
-                    // } else {
-                    //     return <Redirect to="/" />
-                    // }
+                    } else {
+                        return <Redirect to="/" />
+                    }
                 }}
             />
         </>

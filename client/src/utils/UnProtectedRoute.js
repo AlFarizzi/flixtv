@@ -13,7 +13,6 @@ function UnProtectedRoute(props) {
         <>
             <Route exact path="/">
                 <Guest>
-                    <Navbar header={"header header--static"}/>
                     <Suspense fallback={"Loading...."}>
                         <Catalog />
                     </Suspense>
@@ -22,7 +21,6 @@ function UnProtectedRoute(props) {
 
             <Route exact path="/:genreId/:genre">
                 <Guest>
-                    <Navbar header={"header header--static"}/>
                     <Suspense fallback={"Loading...."}>
                         <Catalog />
                     </Suspense>

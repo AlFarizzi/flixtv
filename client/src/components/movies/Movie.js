@@ -52,7 +52,7 @@ function Movie(props) {
                     <h3 className="categories__title">Genres</h3>
                     {
                         detail?.genres?.map((genre,key) => (
-                            <a key={key} href="category.html" className="categories__item">{genre.genre}</a>
+                            <a key={key} href={`/${genre.id}/${genre.genre}`} className="categories__item">{genre.genre}</a>
                         ))
                     }
                 </div>

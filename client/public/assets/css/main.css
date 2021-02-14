@@ -714,8 +714,10 @@ body::-webkit-scrollbar-thumb {
   background-color: #2f80ed;
 }
 .home__card {
+  /* border:1px solid red !important; */
   display: block;
-  width: 290px;
+  width: 250px !important;
+  /* height: 288px !important; */
   transition: 0.5s;
   overflow: hidden;
   position: relative;
@@ -723,7 +725,7 @@ body::-webkit-scrollbar-thumb {
 }
 .home__card img {
   position: relative;
-  width: 100%;
+  width: 100% !important;
   z-index: 1;
   transition: 0.5s;
 }

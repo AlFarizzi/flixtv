@@ -32,6 +32,15 @@ export const getMovie = async (genreIds,page) => {
     }
 }
 
+export const  searchMovie = async(title) => {
+    try {
+        let res = await axios.get('/m/search', {params:{title}})
+        return res.data.data;        
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const getMovieByTitle = async (id) => {
     try {
         let res = await axios.get("/m/movie-detail", {params: {id}})

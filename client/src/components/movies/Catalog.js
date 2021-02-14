@@ -1,16 +1,21 @@
 import React,{ useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import {getAllMovies, getMovie} from '../../functions/movies';
+import {getAllMovies, getMovie, searchMovie} from '../../functions/movies';
 import Rating from './Rating';
-import Carousel from './Carousel';
+import Loader from '../../utils/Loader';
+import Navbar from '../navigation/Navbar';
+import OverLay from '../../utils/OverLay';
 let pageNow = 1;
 
-function Catalog() {
+const path = window.location.pathname;
 
+function Catalog() {
     const params = useParams();
     const [movies,setMovies] = useState([]);
     const [page,setPage] = useState(pageNow);
     const [loading,setLoading] = useState(false);
+    const [loadLoading,setLoadLoading] = useState(false);
+    const [key,setKey] = useState('');
 
     const loadMore = async() => {
         setLoading(true);
@@ -20,7 +25,16 @@ function Catalog() {
         },3000)
     }
 
+    const search = (keyword) => {
+        setKey(keyword)
+    }
+
+    const clickHandler = async() => {
+        setMovies(await searchMovie(key))
+    }
+
     useEffect(() => {
+        setLoadLoading(true);
         const ac = new AbortController();
         (async function() {
             if(params.genreId && params.genre) {
@@ -29,11 +43,16 @@ function Catalog() {
                 setMovies(await getAllMovies(page));
             }
         })()
+        setLoadLoading(false);
         return () => ac.abort();
     },[page,params])
+
     return (
+
         <>
-        <Carousel movies={movies.slice(0,8)} />
+            <Loader loading={loadLoading} />
+            {loadLoading && <OverLay />}
+            <Navbar onClick={clickHandler} onSearch={search} header={"header header--static"} />
             {/* catalog */}
             <div className="catalog">
                 <div className="container">

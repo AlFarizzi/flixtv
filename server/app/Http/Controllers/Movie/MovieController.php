@@ -87,6 +87,13 @@ class MovieController extends Controller
         ]);
     }
 
+    public function searchMovie(Request $request) {
+        $movies = MoviesResource::collection(
+            Movie::where('title', 'LIKE', '%'.$request->title.'%')->get()
+        );
+        return $movies;
+    }
+
     // ----------------------- MOVIE SECTION -------------------
 
     // ------------------------ GENRE SECTION ----------------

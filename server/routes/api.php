@@ -15,6 +15,7 @@ Route::group(["prefix" => "m"],function() {
     Route::get('/update-movie', [MovieController::class,'editMovie']);
     Route::put('/update-movie', [MovieController::class,'updateMovie']);
     Route::delete('/delete-movie', [MovieController::class,'deleteMovie']);
+    Route::get('/search', [MovieController::class,'searchMovie']);
 });
 
 Route::group(["prefix" => "g"], function()  {

@@ -1,18 +1,33 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getMovieByTitle } from '../../functions/movies';
+import { getMovieByTitle, postComment as postCommentToServer, getMovie} from '../../functions/movies';
 import Comment from './Comment';
 
 function Movie(props) {
-    const [detail,setDetail] = useState([]);
     const { title,id } = useParams();
+    const [detail,setDetail] = useState([]);
+    const [comment,setComment] = useState('');
+
+    const commentHandler = (c) => {
+        setComment(c)
+    }
+
+    const postComment = async() => {
+        if(comment) {
+            let res = await postCommentToServer(comment,detail.id)
+            res.created && alert("Tanggapan Berhasil Diberikan");
+            setDetail(await getMovieByTitle(id))
+        } else {
+            alert("Isi Kolom Komentar");
+        }
+    }
 
     useEffect(() => {
         (async function() {
             setDetail(await getMovieByTitle(id))
         })()
     },[id,title])
-    console.log(detail);
+
     return (
         <section className="section section--head section--head-fixed section--gradient section--details-bg">
         <div className="section__bg" data-bg="/assets/img/details.jpg" />
@@ -61,7 +76,7 @@ function Movie(props) {
             </div>
                 <div className="row">
                     <div className="col-12 col-xl-12">
-                        <Comment comments={detail.comments} />
+                        <Comment clickHandler={postComment} onComment={commentHandler} comments={detail.comments} />
                     </div>
                 </div>
             </div>

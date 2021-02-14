@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Comment({comments}) {
+function Comment({comments, onComment, clickHandler}) {
     return (
         <>
             {/* comments and reviews */}
@@ -22,24 +22,28 @@ function Comment({comments}) {
                     <ul className="comments__list">
                         {
                             comments?.map((comment,key) => (
-                                <>
+                                <React.Fragment key={key}>
                                     <li className="comments__item">
                                         <div className="comments__autor">
                                             <img className="comments__avatar" src="/assets/img/arrow2.svg" alt="avatar"/>
-                                            <span className="comments__name">Brian Cranston</span>
-                                            <span className="comments__time">30.08.2021, 17:53</span>
+                                            <span className="comments__name">{comment.author}</span>
+                                            <span className="comments__time">{comment.post}</span>
                                         </div>
-                                        <p className="comments__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                        <p className="comments__text">
+                                            {comment.comment}
+                                        </p>
                                     </li>
-                                </>
+                                </React.Fragment>
                             ))
                         }
                     </ul>
                     <form action="#" className="comments__form">
                         <div className="sign__group">
-                            <textarea id="text" name="text" className="sign__textarea" placeholder="Add comment" defaultValue={""} />
+                            <textarea onChange={e =>{
+                                onComment(e.target.value)
+                            }} id="text" name="text" className="sign__textarea" placeholder="Add comment" defaultValue={""} />
                         </div>
-                        <button type="button" className="sign__btn">Send</button>
+                        <button onClick={clickHandler} type="button" className="sign__btn">Send</button>
                     </form>
                 </div>
                 {/* end comments */}

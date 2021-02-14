@@ -146,8 +146,26 @@ class MovieController extends Controller
     // ------------------------ GENRE SECTION ----------------
 
     // ------------------------ COMMENT SECTION ----------------
-    public function getComments($id,$range=null) {
-        $limit = $range === null ? 10 : $range;
+
+    public function postComment(Request $request) {
+        try {
+            $request->validate(["comment" => ["required"]]);
+            $comment = Comment::create([
+                "name" => $request->name,
+                "movie_id" => $request->id,
+                "comment" => $request->comment
+            ]);
+            return response()->json([
+                "status" => 200,
+                "created" => $comment
+            ]);
+        } catch (\Throwable $th) {
+            throw $th->getMessage();
+        }
+    }
+
+    public function getComments($id,$range=1) {
+        $limit = $range * 5;
         return CommentResource::collection(
             Comment::where('movie_id',$id)->orderBy('id','desc')->limit($limit)->get()
         );

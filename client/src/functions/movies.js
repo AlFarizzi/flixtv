@@ -41,6 +41,15 @@ export const  searchMovie = async(title) => {
     }
 }
 
+export const postComment = async(c,id) => {
+    try {
+        let res = await axios.post('/c/comment', {name:sessionStorage.getItem("name"),comment:c,id})
+        return res.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const getMovieByTitle = async (id) => {
     try {
         let res = await axios.get("/m/movie-detail", {params: {id}})

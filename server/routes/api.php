@@ -26,4 +26,8 @@ Route::group(["prefix" => "g"], function()  {
     Route::put('/update-genre', [MovieController::class,'updateGenre']);
 });
 
+Route::group(["prefix" => "c"],function() {
+    Route::post('/comment', [MovieController::class,'postComment']);
+});
+
 Route::post('/login', [AuthController::class,'login']);

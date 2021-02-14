@@ -34,6 +34,7 @@ function Catalog() {
     }
 
     useEffect(() => {
+        let name = sessionStorage.getItem("name");
         setLoadLoading(true);
         const ac = new AbortController();
         (async function() {
@@ -44,6 +45,11 @@ function Catalog() {
             }
         })()
         setLoadLoading(false);
+
+        if(name === null || name === "" || name === undefined) {
+            let newName = prompt("Masukan Nama Kamu");
+            sessionStorage.setItem("name",newName);
+        }
         return () => ac.abort();
     },[page,params])
 

@@ -23,6 +23,7 @@ function Login(props) {
             setUserData({
                 id:auth.data.id,
                 name:auth.data.name,
+                email:auth.data.email,
                 token:auth.token
             })
             setTimeout(()=>{

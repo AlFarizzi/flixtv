@@ -1,6 +1,7 @@
 import React,{ useState,useEffect, Suspense } from 'react';
 import { getAllMovies, deleteMovieById, getMovie } from '../../../functions/movies';
 import { useParams } from 'react-router-dom';
+import {searchMovie as search} from '../../../functions/movies'
 import * as Action from './actions/Actions';
 import Loader from '../../../utils/Loader';
 import OverLay from '../../../utils/OverLay';
@@ -10,6 +11,7 @@ function Movies(props) {
   const params = useParams();
   const [movies,setMovies] = useState([])
   const [loading,setLoading] = useState(false);
+  const [key,setKey] = useState('');
   const [page,setPage] = useState(pageNow)
 
   const loadMoreHandler = () => {
@@ -27,6 +29,10 @@ function Movies(props) {
     if(deleted === true) alert("Data berhasil dihapus dan tidak dapat dikembalikan lagi!");
     setMovies(await getAllMovies(page));
     setLoading(false);
+  }
+
+  const searchMovie = async () => {
+    setMovies(await search(key));
   }
 
   useEffect(() => {
@@ -57,8 +63,8 @@ function Movies(props) {
                       <div className="main__title-wrap">
                         {/* search */}
                         <form action="#" className="main__title-form">
-                          <input type="text" placeholder="Find movie / tv series.." />
-                          <button type="button">
+                          <input onChange={e => setKey(e.target.value)} type="text" placeholder="Find movie / tv series.." />
+                          <button onClick={searchMovie} type="button">
                             <svg width={18} height={18} viewBox="0 0 18 18" fill="none" xmlns="../../../../external.html?link=http://www.w3.org/2000/svg"><circle cx="8.25998" cy="8.25995" r="7.48191" stroke="#2F80ED" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M13.4637 13.8523L16.3971 16.778" stroke="#2F80ED" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                           </button>
                         </form>

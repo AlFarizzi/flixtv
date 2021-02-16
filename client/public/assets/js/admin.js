@@ -6,7 +6,7 @@ $(document).ready(function () {
 	==============================*/
 	$('.header__btn').on('click', function() {
 		$(this).toggleClass('header__btn--active');
-		$('.header').toggleClass('header--active');
+		$('.header__admin').toggleClass('header--active');
 		$('.sidebar__admin').toggleClass('sidebar--active');
 	});
 

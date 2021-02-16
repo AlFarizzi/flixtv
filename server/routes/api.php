@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Movie\MovieController;
 use App\Models\Movie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\MoviesResource;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Movie\MovieController;
 
 Route::group(["prefix" => "m"],function() {
     Route::get('/movies', [MovieController::class,'getAllMovies']);
@@ -28,6 +29,10 @@ Route::group(["prefix" => "g"], function()  {
 
 Route::group(["prefix" => "c"],function() {
     Route::post('/comment', [MovieController::class,'postComment']);
+});
+
+Route::group(["prefix" => "u"],function() {
+    Route::put('/update-user', [UserController::class,'updateUser']);
 });
 
 Route::post('/login', [AuthController::class,'login']);

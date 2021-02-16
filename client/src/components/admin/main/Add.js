@@ -122,7 +122,7 @@ function Add({data}) {
                     video_link: videoLink,
                     rating:parseFloat(rating) 
                 })
-                console.log(res.data);
+                res.data && alert("Film Berhasil Diupload");
                 setCoverLink(null)
                 setCover(null)
                 setVideoLink(null)

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getMovieByTitle, postComment as postCommentToServer, getMovie} from '../../functions/movies';
+import { getMovieByTitle, postComment as postCommentToServer} from '../../functions/movies';
 import Comment from './Comment';
 
 function Movie(props) {

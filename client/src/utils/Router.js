@@ -1,21 +1,46 @@
-import { Switch } from 'react-router-dom';
-import Index from '../components/admin/Index';
-import Add from '../components/admin/main/Add';
+import React, { Suspense } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { Navbar,Catalog,Movie,Login, Index, Add, Movies, Edit, Genres, Profile } from './Importer';
+
+import Guest from './Guest';
 import ProtectedRoute from './ProtectedRoute';
-import UnProtectedRoute from './UnProtectedRoute';
-import Movies from '../components/admin/movies/Movies';
-import Edit from '../components/admin/movies/Edit';
-import Genres from '../components/admin/movies/Genres';
-import Profile from '../components/admin/Setting/Profile';
+import NotFound from '../components/NotFound';
 
 function Router(props) {
 
     return (
         <>
             <Switch>
-                <UnProtectedRoute />
-            </Switch>
-            <Switch>
+                {/* <UnProtectedRoute /> */}
+                <Route exact path="/">
+                    <Guest>
+                        <Suspense fallback={"Loading...."}>
+                            <Catalog />
+                        </Suspense>
+                    </Guest>
+                </Route>
+
+                <Route exact path="/:genreId/:genre">
+                    <Guest>
+                        <Suspense fallback={"Loading...."}>
+                            <Catalog />
+                        </Suspense>
+                    </Guest>
+                </Route>
+                
+                <Route exact path="/movie/:id/:title">
+                    <Guest>
+                        <Navbar header={"header header--hidden"}/>
+                        <Movie />
+                    </Guest>
+                </Route>
+
+                <Route exact path="/login">
+                    <Guest>
+                        <Login />
+                    </Guest>
+                </Route>
+                
                 <ProtectedRoute exact path="/admin" component={Index}  />
                 <ProtectedRoute exact path="/add-item" component={Add}  />
                 <ProtectedRoute exact path="/catalog" component={Movies}/>
@@ -23,6 +48,8 @@ function Router(props) {
                 <ProtectedRoute exact path="/genres" component={Genres} />
                 <ProtectedRoute exact path="/catalog/:id/:genre" component={Movies} />
                 <ProtectedRoute exact path="/profile-setting" component={Profile}/>
+
+                <Route component={NotFound} />
             </Switch>
         </>
     

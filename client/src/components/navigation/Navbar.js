@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import { getMovieGenres } from '../../functions/movies';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 const path = window.location.pathname;
 
 export const Navbar = ({ header, onSearch, onClick }) =>{

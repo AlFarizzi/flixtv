@@ -45,8 +45,7 @@ function Catalog() {
             }
         })()
         setLoadLoading(false);
-        console.log(name);
-        if(name === "null" || name === "" || name === undefined) {
+        if(name === null || name === "" || name === undefined) {
             let newName = prompt("Masukan Nama Kamu");
             sessionStorage.setItem("name",newName);
         }

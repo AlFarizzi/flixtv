@@ -27,7 +27,6 @@ function Add({data}) {
     }
 
     const coverHandler = (e) => {
-        let container = document.getElementById("form__img");
         setCover(e.target.files[0]);
         var reader = new FileReader();
         reader.onload = function(e) {
@@ -130,7 +129,7 @@ function Add({data}) {
                 setLoading(false);
             })()
         }
-    }, [coverLink,videoLink,duration,movieGenres,release,sinopsis,title]);
+    }, [coverLink,videoLink,duration,movieGenres,release,sinopsis,title,rating]);
 
     return (
         <>

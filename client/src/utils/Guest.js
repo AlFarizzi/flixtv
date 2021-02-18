@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 function Guest(props) {
@@ -10,8 +10,8 @@ function Guest(props) {
             history.push('/admin')
         }
         return ac.abort();
-    },[auth])
-   return props.children
+    },[auth,history])
+   return auth !== "login" && props.children
 }
 
 export default Guest;

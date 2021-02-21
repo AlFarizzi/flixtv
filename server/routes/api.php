@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Resources\MoviesResource;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Genre\GenreController;
 use App\Http\Controllers\Movie\MovieController;
+use App\Http\Controllers\Comment\CommentController;
 
 Route::group(["prefix" => "m"],function() {
     Route::get('/movies', [MovieController::class,'getAllMovies']);
@@ -22,20 +24,21 @@ Route::group(["prefix" => "m"],function() {
 });
 
 Route::group(["prefix" => "g"], function()  {
-    Route::get('/genres', [MovieController::class,'getAllGenres']);
-    Route::get('/add-movie-genres', [MovieController::class,'getAllGenreForAddMovie']);
-    Route::post('/add-genre', [MovieController::class,'addGenre']);
-    Route::delete('/delete-genre', [MovieController::class,'deleteGenre']);
-    Route::put('/update-genre', [MovieController::class,'updateGenre']);
+    Route::get('/genres', [GenreController::class,'getAllGenres']);
+    Route::get('/add-movie-genres', [GenreController::class,'getAllGenreForAddMovie']);
+    Route::post('/add-genre', [GenreController::class,'addGenre']);
+    Route::delete('/delete-genre', [GenreController::class,'deleteGenre']);
+    Route::put('/update-genre', [GenreController::class,'updateGenre']);
 });
 
 Route::group(["prefix" => "c"],function() {
-    Route::post('/comment', [MovieController::class,'postComment']);
-    Route::get("/comments", [MovieController::class,'getComments']);
+    Route::post('/comment', [CommentController::class,'postComment']);
+    Route::get("/comments", [CommentController::class,'getComments']);
 });
 
 Route::group(["prefix" => "u"],function() {
     Route::put('/update-user', [UserController::class,'updateUser']);
+    Route::put('/update-password', [UserController::class,'updatePassword'])->middleware("auth:api");
 });
 
 Route::post('/login', [AuthController::class,'login']);

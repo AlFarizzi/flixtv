@@ -4,7 +4,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 function Loader({ loading }) {
     return (
         <ClipLoader color={"#ffffff"} loading={loading} css={{
-            position:"absolute",
+            position:"fixed",
             zIndex:999,
             top:"50%",
             left:"50%"

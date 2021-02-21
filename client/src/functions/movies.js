@@ -41,15 +41,6 @@ export const  searchMovie = async(title) => {
     }
 }
 
-export const postComment = async(c,id) => {
-    try {
-        let res = await axios.post('/c/comment', {name:sessionStorage.getItem("name"),comment:c,id})
-        return res.data;
-    } catch (error) {
-        throw error;
-    }
-}
-
 export const getMovieByTitle = async (id) => {
     try {
         let res = await axios.get("/m/movie-detail", {params: {id}})
@@ -76,7 +67,7 @@ export const deleteMovieById = async(movie) => {
     }
 }
 
-
+// ------------------------------------------------------
 
 export const getAllGenres = async(page) => {
     try {
@@ -103,4 +94,20 @@ export const updateGenre = async(id,newGenre) => {
     } catch (error) {
         throw error;
     }
+}
+
+// -------------------------------------------------
+
+export const postComment = async(c,id) => {
+    try {
+        let res = await axios.post('/c/comment', {name:sessionStorage.getItem("name"),comment:c,id})
+        return res.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getComments = async(page) => {
+    let res = await axios.get('/c/comments');
+    return res.data;
 }

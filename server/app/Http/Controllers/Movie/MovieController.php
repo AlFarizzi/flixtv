@@ -17,7 +17,7 @@ class MovieController extends Controller
 {
     //------------------------ MOVIE SECTION --------------------
     public function getAllMovies(Request $request) {
-        $page = $request->page * 6;
+        $page = $request->page * 12;
         return MoviesResource::collection(
             Movie::orderBy('id','desc')->limit($page)->get()
         );
@@ -94,6 +94,19 @@ class MovieController extends Controller
         return $movies;
     }
 
+    public function dashboardData() {
+        $movies = count(MovieResource::collection(Movie::get()));
+        $genres = count(GenresResource::collection(Genre::get()));
+        $comments = count(CommentResource::collection(Comment::get()));
+
+        return response()->json([
+            "movies" => $movies,
+            "genres" => $genres,
+            "comments" => $comments
+        ]);
+    }
+
+
     // ----------------------- MOVIE SECTION -------------------
 
     // ------------------------ GENRE SECTION ----------------
@@ -164,11 +177,12 @@ class MovieController extends Controller
         }
     }
 
-    public function getComments($id,$range=1) {
+    public function getComments($id = null,$range=1) {
         $limit = $range * 5;
-        return CommentResource::collection(
-            Comment::where('movie_id',$id)->orderBy('id','desc')->limit($limit)->get()
-        );
+        $comments = $id === null
+        ? Comment::orderBy('id','desc')->limit($limit)->get()
+        : Comment::where('movie_id',$id)->orderBy('id','desc')->limit($limit)->get();
+        return CommentResource::collection($comments);
     }
     // ------------------------ COMMENT SECTION ----------------
 

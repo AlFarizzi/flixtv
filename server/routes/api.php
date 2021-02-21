@@ -17,6 +17,8 @@ Route::group(["prefix" => "m"],function() {
     Route::put('/update-movie', [MovieController::class,'updateMovie']);
     Route::delete('/delete-movie', [MovieController::class,'deleteMovie']);
     Route::get('/search', [MovieController::class,'searchMovie']);
+
+    Route::get("/dashboard-data",[MovieController::class, 'dashboardData']);
 });
 
 Route::group(["prefix" => "g"], function()  {
@@ -29,6 +31,7 @@ Route::group(["prefix" => "g"], function()  {
 
 Route::group(["prefix" => "c"],function() {
     Route::post('/comment', [MovieController::class,'postComment']);
+    Route::get("/comments", [MovieController::class,'getComments']);
 });
 
 Route::group(["prefix" => "u"],function() {

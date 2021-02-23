@@ -5,6 +5,8 @@ import {searchMovie as search} from '../../../functions/movies'
 import * as Action from './actions/Actions';
 import Loader from '../../../utils/Loader';
 import OverLay from '../../../utils/OverLay';
+import { useRecoilValue } from 'recoil';
+import { user } from '../../../utils/atom';
 let pageNow = 1;
 
 function Movies(props) {
@@ -13,6 +15,7 @@ function Movies(props) {
   const [loading,setLoading] = useState(false);
   const [key,setKey] = useState('');
   const [page,setPage] = useState(pageNow)
+  const userData = useRecoilValue(user);
 
   const loadMoreHandler = () => {
     setLoading(true)
@@ -25,7 +28,7 @@ function Movies(props) {
 
   const deleteMovie = async(movie) => {
     setLoading(true)
-    let deleted = await deleteMovieById(movie);
+    let deleted = await deleteMovieById(movie,userData.token);
     if(deleted === true) alert("Data berhasil dihapus dan tidak dapat dikembalikan lagi!");
     setMovies(await getAllMovies(page));
     setLoading(false);

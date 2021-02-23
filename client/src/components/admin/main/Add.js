@@ -30,7 +30,6 @@ function Add({data}) {
         setCover(e.target.files[0]);
         var reader = new FileReader();
         reader.onload = function(e) {
-            console.log(e.target.result);
             document.getElementById("form__img").src = e.target.result
         }
 		reader.readAsDataURL(e.target.files[0]);

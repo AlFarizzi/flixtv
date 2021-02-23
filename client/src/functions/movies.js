@@ -56,12 +56,18 @@ const deleteFileViaLink = (link) => {
     .catch(err => console.log(err))
 }
 
-export const deleteMovieById = async(movie) => {
+export const deleteMovieById = async(movie,token) => {
     try {
-        await deleteFileViaLink(movie.poster_link) 
-        await deleteFileViaLink(movie.video_link) 
-        let res = await axios.delete("/m/delete-movie", {data:{id:movie.id}})
-        return res.data.deleted;
+        if(token) {
+            await deleteFileViaLink(movie.poster_link) 
+            await deleteFileViaLink(movie.video_link) 
+            let res = await axios.delete("/m/delete-movie", {data:{id:movie.id},
+            headers : {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+            return res.data.deleted;
+        }
     } catch (error) {
         throw error
     }
@@ -78,18 +84,24 @@ export const getAllGenres = async(page) => {
     }
 }
 
-export const deleteGenre = async(id) => {
+export const deleteGenre = async(id,token) => {
     try {
-        let res = await axios.delete("/g/delete-genre", {params: {id} })
+        let res = await axios.delete("/g/delete-genre", {params: {id}, headers: {
+            "Authorization": `Bearer ${token}`
+        } })
         return res.data
     } catch (error) {
         throw error
     }
 }
 
-export const updateGenre = async(id,newGenre) => {
+export const updateGenre = async(id,newGenre, token) => {
     try {
-        let res = await axios.put('/g/update-genre', {genre:newGenre,id});
+        let res = await axios.put('/g/update-genre', {genre:newGenre,id}, {
+            headers :{
+                "Authorization": `Bearer ${token}`
+            }
+        });
         return res.data;
     } catch (error) {
         throw error;

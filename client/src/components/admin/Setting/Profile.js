@@ -8,6 +8,10 @@ function Profile(props) {
     const [userData,setUserData] = useRecoilState(user)
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
+    const [oldPassword,setOldPassword] = useState('');
+    const [newPassword,setNewPassword] = useState('');
+    const [passwordConfirmation, setPasswordConfirmation] = useState('');
+    
 
     const setNameHandler = (newName) => {
         setName(newName)
@@ -21,19 +25,47 @@ function Profile(props) {
         e.preventDefault();
         try {
             if(name && email) {
-                let res = await axios.put('/u/update-user', {id:userData.id,name,email});
+                let res = await axios.put('/u/update-user', {id:userData.id,name,email},
+                {
+                    headers : {
+                        "Authorization" : `Bearer ${userData.token}`
+                    }   
+                }
+                );
                 setUserData({
                     id: res.data.id,
                     name: res.data.name,
                     email: res.data.email,
                     token: userData.token
                 })
+                alert("Data Berhasil Diupdate")
             } else {
                 alert("Tidak Ada Data Yang Diupdate");
             }
         } catch (error) {
             throw error
         }
+    }
+
+    const changePasswordHandler = async(e) => {
+        e.preventDefault();
+        try {
+            let res = await axios.put('/u/update-password', 
+         {id:userData.id, old_password:oldPassword, password:newPassword, password_confirmation:passwordConfirmation},
+            {
+                headers : {
+                    "Authorization" : `Bearer ${userData.token}`
+                }   
+            }
+            )
+        res.data.updated === true && alert("Update Password Berhasil Dilakukan");
+        } catch (error) {
+            let errors = error.response.data.errors;
+            let errorMessage = error.response.data.error;
+            errors?.password && alert(errors.password[0])
+            errorMessage && alert(errorMessage);
+        }
+        
     }
 
     console.log(userData);
@@ -75,7 +107,7 @@ function Profile(props) {
                         {/* end details form */}
                         {/* password form */}
                         <div className="col-12 col-lg-6">
-                        <form action="#" className="sign__form sign__form--profile">
+                        <form onSubmit={changePasswordHandler} className="sign__form sign__form--profile">
                             <div className="row">
                             <div className="col-12">
                                 <h4 className="sign__title">Change password</h4>
@@ -83,23 +115,23 @@ function Profile(props) {
                             <div className="col-12 col-md-6 col-lg-12 col-xl-6">
                                 <div className="sign__group">
                                 <label className="sign__label" htmlFor="oldpass">Old password</label>
-                                <input id="oldpass" type="password" name="oldpass" className="sign__input" />
+                                <input onChange={e => setOldPassword(e.target.value)} id="oldpass" type="password" name="oldpass" className="sign__input" />
                                 </div>
                             </div>
                             <div className="col-12 col-md-6 col-lg-12 col-xl-6">
                                 <div className="sign__group">
                                 <label className="sign__label" htmlFor="newpass">New password</label>
-                                <input id="newpass" type="password" name="newpass" className="sign__input" />
+                                <input onChange={e => setNewPassword(e.target.value)} id="newpass" type="password" name="newpass" className="sign__input" />
                                 </div>
                             </div>
                             <div className="col-12 col-md-6 col-lg-12 col-xl-6">
                                 <div className="sign__group">
                                 <label className="sign__label" htmlFor="confirmpass">Confirm new password</label>
-                                <input id="confirmpass" type="password" name="confirmpass" className="sign__input" />
+                                <input onChange={e => setPasswordConfirmation(e.target.value)} id="confirmpass" type="password" name="confirmpass" className="sign__input" />
                                 </div>
                             </div>
                             <div className="col-12">
-                                <button className="sign__btn" type="button">Change</button>
+                                <button className="sign__btn" type="submit">Change</button>
                             </div>
                             </div>
                         </form>

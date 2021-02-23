@@ -7,7 +7,7 @@ import ProtectedRoute from './ProtectedRoute';
 import NotFound from '../components/NotFound';
 
 function Router(props) {
-
+    console.log("Router Re-render");
     return (
         <>
             <Switch>

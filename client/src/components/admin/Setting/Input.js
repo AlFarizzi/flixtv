@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Input({type, label, defaultValue, changeHandler}) {
-
+console.log(defaultValue);
   return (
       <>
           {/* Input */}

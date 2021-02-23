@@ -4,6 +4,8 @@ import { getAllGenres, deleteGenre, updateGenre } from '../../../functions/movie
 import Loader from '../../../utils/Loader';
 import OverLay from '../../../utils/OverLay';
 import axios from '../../../utils/axios';
+import { useRecoilValue } from 'recoil';
+import { user } from '../../../utils/atom';
 import * as Action from './actions/Actions'
 let pageNow = 1;
 
@@ -11,10 +13,11 @@ const Genres = () => {
     const [genres,setGenres] = useState([]);
     const [loading,setLoading] = useState(false);
     const [page, setPage] = useState(pageNow);
+    const userData = useRecoilValue(user);
 
     const deleteHandler = async (id) => {
       setLoading(true);
-      let res = await deleteGenre(id);
+      let res = await deleteGenre(id, userData.token);
       res.deleted && setGenres(await getAllGenres());
       alert("Genre Sudah Berhasil Dihapus Dan Tidak Dapat Dibatalka");
       setLoading(false);
@@ -23,7 +26,7 @@ const Genres = () => {
     const updateHandler = async(genre) => { 
       let newGenre = prompt(`Genre Sebelumnya Bernama: ${genre.genre}, Untuk Update Nama Genre Silahkan Ketikan Nama Genre Yang Baru Dibawah`);
       if(newGenre) {
-        let res = await updateGenre(genre.id,newGenre);
+        let res = await updateGenre(genre.id,newGenre,userData.token);
         alert("Genre Sudah Berhasil diUpdate");
         res.updated && setGenres(await getAllGenres());
       }
@@ -34,7 +37,11 @@ const Genres = () => {
       setLoading(true);
       let genre = prompt("Masukan Nama Genre");
       if(genre) {
-          let res = await axios.post('/g/add-genre', {genre})
+          let res = await axios.post('/g/add-genre', {genre}, {
+            headers: {
+              "Authorization": `Bearer ${userData.token}`
+            }
+          })
           if (res.data.created === true) {
             alert("Genre Berhasil Ditambahkan")
             setGenres(await getAllGenres(page))

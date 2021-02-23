@@ -1472,7 +1472,7 @@ body::-webkit-scrollbar-thumb {
 }
 @media (min-width: 768px) {
   .catalog {
-    padding: 60px 0 80px;
+    padding: 1px 0 80px;
   }
   .catalog--page {
     padding-top: 30px;

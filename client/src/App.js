@@ -1,8 +1,13 @@
 import Router from './utils/Router';
 import {user} from './utils/atom';
 import { useRecoilState } from 'recoil';
+import { useState } from 'react';
+import Disconnect from './utils/Disconnect';
+
 function App() {
+   
     const [userData,setUserData] = useRecoilState(user);
+    const [connected,setConnected] = useState(window.navigator.onLine);
     const reload = () => {
         window.addEventListener("beforeunload", (e) => {
             if(userData?.token !== null) localStorage.setItem("auth",JSON.stringify(userData));
@@ -21,7 +26,14 @@ function App() {
 
     return (
         <>
-            <Router />
+        {
+            setInterval(() => {
+                setConnected(window.navigator.onLine);
+            },3000)
+        }
+        {
+            connected ? <Router /> : <Disconnect />
+        }
         </>
     )
 }

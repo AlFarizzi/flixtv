@@ -5,9 +5,12 @@ import Select2 from './Select2';
 import { useParams } from 'react-router-dom';
 import Loader from '../../../utils/Loader';
 import OverLay from '../../../utils/OverLay';
+import { useRecoilValue } from 'recoil';
+import { user } from '../../../utils/atom';
 
 function Add({data}) {
     const { id } = useParams();
+    const userData = useRecoilValue(user);
     const [movie,setMovie] = useState(null);
     const [genres,setGenres] = useState([]);
     const [title,setTitle] = useState('');
@@ -53,6 +56,10 @@ function Add({data}) {
                 synopsis:sinopsis,
                 movie:movie,
                 genres: movieGenres.length > 0 ? movieGenres : movie.genres
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${userData.token}`
+                }
             })
             res.data.edited === true ? alert("Berhasil melakukan update data") : alert("Update data tidak berhasil dilakukan");
         } catch (error) {

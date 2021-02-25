@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Http\Controllers\Movie\MovieController;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Controllers\Comment\CommentController;
 
 class MovieResource extends JsonResource
 {
@@ -15,7 +16,7 @@ class MovieResource extends JsonResource
      */
     public function toArray($request)
     {
-        $repo = new MovieController();
+        $repo = new CommentController();
         return [
             "id" => $this->id,
             "title" => $this->title,

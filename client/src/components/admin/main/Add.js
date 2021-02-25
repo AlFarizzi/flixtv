@@ -2,6 +2,8 @@ import React,{ useState, useEffect } from 'react';
 import { getMovieGenres } from '../../../functions/movies';
 import { storage } from '../../../utils/firebase';
 import axios from '../../../utils/axios';
+import { useRecoilValue } from 'recoil';
+import { user } from '../../../utils/atom';
 import Poster from '../upload/Poster';
 import Video from '../upload/Video';
 import Select2 from '../movies/Select2';
@@ -9,6 +11,7 @@ import OverLay from '../../../utils/OverLay';
 import Loader from '../../../utils/Loader';
 
 function Add({data}) {
+    const userData = useRecoilValue(user);
     const [genres,setGenres] = useState([]);
     const [title,setTitle] = useState('');
     const [sinopsis,setSinopsis] = useState('');
@@ -119,7 +122,7 @@ function Add({data}) {
                     poster_link: coverLink,
                     video_link: videoLink,
                     rating:parseFloat(rating) 
-                })
+                }, {headers: {"Authorization":`Bearer ${userData.token}`}})
                 res.data && alert("Film Berhasil Diupload");
                 setCoverLink(null)
                 setCover(null)
@@ -128,7 +131,7 @@ function Add({data}) {
                 setLoading(false);
             })()
         }
-    }, [coverLink,videoLink,duration,movieGenres,release,sinopsis,title,rating]);
+    }, [userData.token,coverLink,videoLink,duration,movieGenres,release,sinopsis,title,rating]);
 
     return (
         <>
